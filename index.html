@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8fb">
+  <title>PinTools by Rayyan · AI Content Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="topbar">
+    <a class="brand" href="#dashboard" aria-label="PinTools dashboard">
+      <span class="brand-mark">PT</span>
+      <span class="brand-copy"><strong>PinTools</strong><small>by Rayyan</small></span>
+    </a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <button class="nav-btn active" data-view="dashboard">Dashboard</button>
+      <button class="nav-btn" data-view="projects">Projects</button>
+      <button class="nav-btn" data-view="settings">Settings</button>
+    </nav>
+    <div class="top-actions">
+      <span class="session-pill"><i></i> Temporary session</span>
+      <span class="connection-pill" id="connectionPill"><i></i><span>Checking AI</span></span>
+      <button class="icon-button theme-toggle" id="themeToggle" title="Switch theme" aria-label="Switch theme">☾</button>
+      <button class="avatar-button" title="PinTools by Rayyan">PT</button>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <section class="view active" id="dashboardView">
+      <div class="welcome-row">
+        <div>
+          <div class="eyebrow">YOUR CREATIVE WORKSPACE</div>
+          <h1>Make something worth saving.</h1>
+          <p>Create blog content, image prompts and Pinterest assets in one workspace.</p>
+        </div>
+        <div class="welcome-actions">
+          <button class="button button-secondary" id="projectsShortcut">▤ My projects</button>
+          <button class="button button-primary" id="newProjectButton">＋ New project</button>
+        </div>
+      </div>
+
+      <div class="callout callout-warm privacy-banner" id="privacyNotice">
+        <div class="privacy-banner-copy"><strong>Before you start: privacy and API safety</strong><span>PinTools has no login or cloud database. Your work stays in this browser session. Your API keys are stored in this tab's session storage and sent directly to the AI provider you select. Browser scripts and extensions may be able to access them. Use restricted API keys with spending limits, and never enter an organization master key.</span></div>
+        <button class="button button-secondary button-small" id="dismissPrivacyNotice" type="button">Got it</button>
+      </div>
+
+      <div class="callout session-reminder"><strong>Temporary workspace</strong><span>Your projects and generated images survive refreshes in this tab. Download your work before closing the tab or ending the session.</span></div>
+      <div class="section-toolbar">
+        <div><h2>AI Generators</h2><p>Choose a tool and get the finished result directly in PinTools.</p></div>
+        <label class="search-box"><span>⌕</span><input id="toolSearch" type="search" placeholder="Search generators..."></label>
+      </div>
+      <div class="filter-row" id="filterRow">
+        <button class="filter-chip active" data-filter="All">All tools</button>
+        <button class="filter-chip" data-filter="Content">Content</button>
+        <button class="filter-chip" data-filter="Images">Images</button>
+        <button class="filter-chip" data-filter="Pinterest">Pinterest</button>
+      </div>
+      <div class="tool-grid" id="toolGrid"></div>
+
+      <button class="workflow-card" id="startWorkflowButton">
+        <span class="workflow-copy">
+          <span class="workflow-label">ONE PROJECT · CONNECTED STEPS</span>
+          <strong>Complete Content Workflow</strong>
+          <span>Go from a keyword to a finished article, supporting images and Pinterest assets. Each stage uses the same generators, with your approval at every step.</span>
+          <span class="workflow-mini-steps"><b>01 · Titles</b><i>→</i><b>02 · Ideas</b><i>→</i><b>03 · Images</b><i>→</i><b>04 · Article</b><i>→</i><b>05 · Pins</b></span>
+        </span>
+        <span class="workflow-action"><span class="workflow-symbol">✦</span><span class="button button-primary">Start workflow <b>→</b></span></span>
+      </button>
+
+      <button class="workflow-card automated-workflow-card" id="startAutomatedWorkflowButton">
+        <span class="workflow-copy">
+          <span class="workflow-label">TEXT-ONLY · AUTOMATED PRODUCTION</span>
+          <strong>Automated Article Creator</strong>
+          <span>Enter a keyword, choose a title, then let PinTools automatically create the ideas, image prompts, alt texts, article, featured-image prompt, Pinterest titles and descriptions. No image-generation API calls.</span>
+          <span class="workflow-mini-steps"><b>01 · Keyword</b><i>→</i><b>02 · Select title</b><i>→</i><b>03 · Ideas & prompts</b><i>→</i><b>04 · Article</b><i>→</i><b>05 · Pinterest</b></span>
+        </span>
+        <span class="workflow-action"><span class="workflow-symbol">⚡</span><span class="button button-primary">Start automated workflow <b>→</b></span></span>
+      </button>
+
+      <section class="recent-section">
+        <div class="section-toolbar recent-toolbar"><div><h2>Recent projects</h2><p>Pick up where you left off.</p></div><button class="text-button" id="viewAllProjects">View all projects →</button></div>
+        <div class="recent-grid" id="recentProjects"></div>
+      </section>
+      <footer class="footer-note">PinTools · by Rayyan · Public Edition 1.5.0 · Open source under MIT License</footer>
+    </section>
+
+    <section class="view" id="projectsView">
+      <div class="page-heading"><div><div class="eyebrow">YOUR WORK</div><h1>My Projects</h1><p>Your projects and generated assets are temporary and belong to this browser tab session.</p></div><button class="button button-primary" id="newProjectButton2">＋ New project</button></div>
+      <div class="project-grid" id="projectGrid"></div>
+    </section>
+
+    <section class="view" id="settingsView">
+      <div class="page-heading"><div><div class="eyebrow">PREFERENCES & CONNECTIONS</div><h1>Settings</h1><p>Connect your own AI providers and manage this temporary browser session.</p></div></div>
+      <div class="settings-layout provider-settings-layout">
+        <section class="settings-panel provider-panel">
+          <div class="panel-heading"><div class="panel-icon">✍</div><div><h2>Text AI Connection</h2><p>Connect OpenAI, Claude or Gemini for text generation.</p></div><span class="status-tag" id="textConnectionStatus">Not connected</span></div>
+          <div class="callout callout-warm"><strong>API key safety warning</strong><span>PinTools has no server proxy. Your key is held in this tab and sent directly to the provider. It can be exposed to scripts or browser extensions. Use a restricted key with a spending limit and revoke it after testing.</span></div>
+          <div class="field-grid settings-fields">
+            <label class="field field-full"><span>Text provider</span><select id="textProvider"><option value="openai">OpenAI</option><option value="anthropic">Claude (Anthropic)</option><option value="gemini">Gemini (Google)</option></select></label>
+            <label class="field field-full"><span>Text API base URL</span><input id="textBaseUrl" type="url" placeholder="Provider API base URL"><small>Usually keep the provider's default URL.</small></label>
+            <label class="field field-full"><span>Text API key</span><div class="secret-input"><input id="textApiKey" type="password" autocomplete="new-password" placeholder="Paste your text API key"><button type="button" data-toggle-secret="textApiKey">Show</button></div><small id="textApiKeyHint">Held in this tab session only. Browser scripts and extensions may access it.</small></label>
+            <label class="field field-full"><span>Text model</span><input id="textModelInput" placeholder="Enter a model available to your account"></label>
+          </div>
+          <div class="panel-actions"><button class="button button-primary" id="saveTextSettings">Save text connection</button><button class="button button-secondary" id="testTextConnection">Test text connection</button><button class="button button-danger-ghost" id="removeTextKey">Remove key</button></div>
+          <div class="inline-feedback" id="textApiFeedback" aria-live="polite"></div>
+        </section>
+
+        <section class="settings-panel provider-panel">
+          <div class="panel-heading"><div class="panel-icon">▧</div><div><h2>Image AI Connection</h2><p>Choose a separate provider for article images and Pinterest graphics.</p></div><span class="status-tag" id="imageConnectionStatus">Not connected</span></div>
+          <div class="callout callout-warm"><strong>Image cost and key warning</strong><span>Image generation can create charges on your provider account. Review pricing first. Your image API key is stored only in this tab session, but is not protected from scripts or browser extensions.</span></div>
+          <div class="field-grid settings-fields">
+            <label class="field field-full"><span>Image provider</span><select id="imageProvider"><option value="openai">OpenAI Images</option><option value="gemini">Gemini Image</option></select></label>
+            <label class="field field-full"><span>Image API base URL</span><input id="imageBaseUrl" type="url" placeholder="Provider API base URL"><small>Usually keep the provider's default URL.</small></label>
+            <label class="field field-full"><span>Image API key</span><div class="secret-input"><input id="imageApiKey" type="password" autocomplete="new-password" placeholder="Paste your image API key"><button type="button" data-toggle-secret="imageApiKey">Show</button></div><small id="imageApiKeyHint">Held in this tab session only. Browser scripts and extensions may access it.</small></label>
+            <label class="field field-full"><span>Image model</span><input id="imageModelInput" placeholder="Enter an image model available to your account"></label>
+          </div>
+          <div class="panel-actions"><button class="button button-primary" id="saveImageSettings">Save image connection</button><button class="button button-secondary" id="testImageConnection">Test image connection</button><button class="button button-danger-ghost" id="removeImageKey">Remove key</button></div>
+          <div class="inline-feedback" id="imageApiFeedback" aria-live="polite"></div>
+          <div class="security-note">Image tests create a real image and may incur provider charges.</div>
+        </section>
+
+        <section class="settings-panel">
+          <div class="panel-heading"><div class="panel-icon">◐</div><div><h2>Appearance</h2><p>Choose your workspace theme.</p></div></div>
+          <div class="theme-choice-row"><button class="theme-choice" id="lightThemeChoice"><span>☀</span><b>Light</b></button><button class="theme-choice" id="darkThemeChoice"><span>☾</span><b>Dark</b></button></div>
+        </section>
+        <section class="settings-panel">
+          <div class="panel-heading"><div class="panel-icon">▤</div><div><h2>Session backup</h2><p>Export your projects and generated assets before ending this temporary session. API keys are never included.</p></div></div>
+          <div class="stack-actions"><button class="button button-secondary" id="exportBackupButton">↓ Export session backup</button><label class="button button-secondary" for="importBackupInput">↑ Import session backup</label><input class="visually-hidden" type="file" id="importBackupInput" accept="application/json,.json"></div>
+        </section>
+        <section class="settings-panel settings-panel-wide">
+          <div class="panel-heading"><div class="panel-icon">⌂</div><div><h2>Temporary browser session</h2><p>Projects and images survive refreshes in this tab. A new tab session starts with an empty workspace.</p></div></div>
+          <div class="panel-actions"><button class="button button-danger-ghost" id="endSessionButton">End Session &amp; Clear Everything</button><span class="muted-note">Download your work first. This clears temporary projects, images and API keys for this tab.</span></div>
+        </section>
+        <section class="settings-panel settings-panel-wide">
+          <div class="panel-heading"><div class="panel-icon">ⓘ</div><div><h2>Help &amp; Safety</h2><p>Important information before using a public browser-based AI tool.</p></div></div>
+          <div class="safety-list">
+            <div><strong>Protect your API keys</strong><span>Use restricted keys with spending limits. Do not use master keys or keys with organization-wide permissions. Keys are stored in this tab session and can be read by scripts or browser extensions running in the page context.</span></div>
+            <div><strong>Understand AI charges</strong><span>PinTools is free, but OpenAI, Anthropic and Google may charge for API requests. Image generation can be more expensive. Review provider pricing and usage limits.</span></div>
+            <div><strong>Know where your content goes</strong><span>Prompts and generated content are sent directly to the AI provider you select. They are not sent to a PinTools server. Provider terms and data policies apply.</span></div>
+            <div><strong>Download before leaving</strong><span>Your workspace is temporary. Export projects, articles and images before ending the tab session. Refreshing is supported; closing the tab ends the session.</span></div>
+            <div><strong>Open-source transparency</strong><span>PinTools is open source. Prompt templates are included in the public repository and are hidden from the interface, not secret.</span></div>
+          </div>
+        </section>
+        <div class="security-note settings-panel-wide">Privacy: PinTools is a static open-source website. It does not have user accounts, a central database or a PinTools backend. Prompts and API requests go directly from your browser to your chosen AI provider. Provider terms, privacy practices and charges apply.</div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="modal-backdrop" id="toolModal" aria-hidden="true"><section class="modal modal-large" role="dialog" aria-modal="true" aria-labelledby="toolModalTitle"><header class="modal-header"><div><div class="eyebrow" id="toolModalCategory">AI GENERATOR</div><h2 id="toolModalTitle">Generator</h2><p id="toolModalSubtitle">Enter your details and generate the finished result.</p></div><button class="icon-button" id="closeToolModal" aria-label="Close">✕</button></header><div class="modal-body" id="toolModalBody"></div></section></div>
+<div class="modal-backdrop" id="workflowModal" aria-hidden="true"><section class="modal modal-large" role="dialog" aria-modal="true" aria-labelledby="workflowTitle"><header class="modal-header"><div><div class="eyebrow">GUIDED CONTENT PROJECT</div><h2 id="workflowTitle">Complete Content Workflow</h2><p id="workflowSubtitle">Your project, one approved stage at a time.</p></div><button class="icon-button" id="closeWorkflowModal" aria-label="Close">✕</button></header><div class="modal-body" id="workflowBody"></div></section></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

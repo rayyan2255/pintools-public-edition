@@ -1,0 +1,17 @@
+# Local secrets and temporary exports
+.env
+.env.*
+*.key
+*.pem
+pintools-session-backup-*.json
+*-project.json
+*.log
+
+# Development artifacts
+__pycache__/
+*.py[cod]
+node_modules/
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
